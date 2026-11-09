@@ -1,0 +1,8 @@
+.git
+.agents
+work
+data
+__pycache__
+*.pyc
+.env
+node_modules

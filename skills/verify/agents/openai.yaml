@@ -1,5 +1,5 @@
 interface:
   display_name: "verify"
-  short_description: "실행·독립 검증"
+  short_description: "검증 세션: 독립 검산, 권한, 저장 확인"
 policy:
   allow_implicit_invocation: false

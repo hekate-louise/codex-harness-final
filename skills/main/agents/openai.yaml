@@ -1,0 +1,5 @@
+interface:
+  display_name: "main"
+  short_description: "메인 세션: 계획, 카드 분할, 통합, 마무리"
+policy:
+  allow_implicit_invocation: false

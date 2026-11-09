@@ -1,0 +1,5 @@
+interface:
+  display_name: "docs"
+  short_description: "문서 세션: 보고서, 데이터 흐름 표, 발표 원고, 누락 감시"
+policy:
+  allow_implicit_invocation: false

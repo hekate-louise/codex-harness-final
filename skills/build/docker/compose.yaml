@@ -1,0 +1,16 @@
+# 예시: 실행은 docker compose up --build
+# 같은 폴더에서 실행하면 프로젝트 이름이 겹칠 수 있다. 실행 세션은 AGENTS.md 규칙을 따른다.
+services:
+  web:
+    build: .
+    ports:
+      - "${PORT:-8000}:${PORT:-8000}"      # 내 PC 포트 : 컨테이너 포트
+    environment:
+      HOST: 0.0.0.0
+      PORT: "${PORT:-8000}"
+      DB_PATH: /app/data/app.db
+    volumes:
+      - app-data:/app/data   # 컨테이너를 지워도 DB가 남는다
+
+volumes:
+  app-data:

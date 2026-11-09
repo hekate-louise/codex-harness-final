@@ -1,0 +1,5 @@
+interface:
+  display_name: "build"
+  short_description: "구현 세션: 카드 하나 구현"
+policy:
+  allow_implicit_invocation: false

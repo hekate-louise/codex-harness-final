@@ -1,5 +1,5 @@
 interface:
   display_name: "explain"
-  short_description: "사후 질문 대비 정리"
+  short_description: "학습 세션: 개념 배우기와 이해도 점검"
 policy:
   allow_implicit_invocation: false

@@ -1,0 +1,5 @@
+interface:
+  display_name: "design"
+  short_description: "디자인 세션: 수치 사양 먼저, 스타일 적용"
+policy:
+  allow_implicit_invocation: false

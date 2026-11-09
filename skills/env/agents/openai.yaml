@@ -1,5 +1,0 @@
-interface:
-  display_name: "env"
-  short_description: "개발 환경 점검"
-policy:
-  allow_implicit_invocation: false

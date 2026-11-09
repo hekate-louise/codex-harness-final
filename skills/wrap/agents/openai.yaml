@@ -1,5 +1,0 @@
-interface:
-  display_name: "wrap"
-  short_description: "제출 전 최종 점검"
-policy:
-  allow_implicit_invocation: false

@@ -12,7 +12,7 @@ metadata:
 - `impeccable` 명령과 `scripts/` 경로를 실행하지 않고, 엔진이나 브라우저 번들을 내려받지 않는다. 외부 서비스에 접속하거나 데이터를 보내지 않는다.
 - Setup 1단계(`impeccable context`)는 건너뛴다. "Launcher unavailable" 절차대로 필요한 reference 파일을 직접 읽는다. `reference/`의 `impeccable <verb>` 명령을 만나면 실행하지 말고 그 지침의 설계 원칙만 쓴다.
 - `live`, `generate`, `hooks`, `pin`, `doctor`, `animate`, `delight`, `overdrive`는 쓰지 않는다. 화면 자동 조작과 스크린샷 도구도 쓰지 않는다. 화면은 사용자가 직접 확인한다.
-- PRODUCT.md, DESIGN.md, `.impeccable/` 같은 새 문서를 만들지 않는다.
+- PRODUCT.md, DESIGN.md, `.impeccable/` 같은 새 문서를 만들지 않는다. 화면 사양은 디자인 역할이 관리하는 `docs/DESIGN.md`를 읽기만 한다.
 - 우선순위: 과제 README와 사용자 요구 → AGENTS.md → `frontend-design/design-reference.md` → 이 스킬. 업무 화면은 Operate 모드로 본다. 색과 글꼴은 design-reference.md를 "The brief wins"의 brief로 다룬다.
 - 필요한 reference만 읽는다. 시간 한도는 15분이고 업무 로직은 건드리지 않는다.
 
