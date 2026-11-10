@@ -86,7 +86,7 @@ git clone https://github.com/hekate-louise/codex-harness-final work/codex-harnes
 | `explain` | `learn`: 개념 배우기 / `check`: 예상 질문, 피드백, 모범 답안(문항 수 제한 없음) |
 | `docs` | REPORT, 데이터 흐름 표, 발표 원고, 누락 감시 |
 | `handoff` | 같은 역할 세션 교체 시 인계 |
-| `frontend-design` | 업무 화면 디자인 기준(`design-reference.md`). 디자인 역할이 읽는다 |
+| `frontend-design` | 공통 색·시각 원칙(`design-reference.md`)과 과제별 화면 유형(`screens/`), 구조 참고용 정적 예제(`examples/`). 디자인 역할이 읽는다 |
 | `impeccable` | 화면 점검 지침(문서판, 실행 파일 없음). 예: `$impeccable critique static/index.html` |
 
 ## 속도와 사용량
@@ -98,6 +98,6 @@ git clone https://github.com/hekate-louise/codex-harness-final work/codex-harnes
 
 ## 출처와 라이선스
 - handoff: [mattpocock/skills](https://github.com/mattpocock/skills), MIT 원본을 바탕으로 역할별 인계에 맞게 수정. 폴더에 원본 LICENSE 유지.
-- frontend-design: [anthropics/skills](https://github.com/anthropics/skills), Apache 2.0 원본을 바탕으로 업무 UI·수동 확인 중심으로 수정(2026-10-28). 원본 LICENSE.txt 유지.
+- frontend-design: [anthropics/skills](https://github.com/anthropics/skills), Apache 2.0 원본을 바탕으로 업무 UI·수동 확인 중심으로 수정(2026-10-28), 공통 색·시각 원칙과 화면 유형 문서·정적 예제를 정리(2026-11-10). 색 자료의 출처는 [디자인 기준](skills/frontend-design/design-reference.md#출처)에 기록. 원본 LICENSE.txt 유지.
 - impeccable: [pbakaus/impeccable](https://github.com/pbakaus/impeccable), Apache 2.0, 커밋 f864521의 Codex용 스킬에서 지침 문서만 가져오고 실행 파일·스크립트·훅·하위 에이전트를 뺐으며 맨 앞에 사용 규칙을 추가함(2026-11-04). 원본 LICENSE와 NOTICE.md 유지.
 - 그 밖의 파일은 이 저장소에서 작성했다.

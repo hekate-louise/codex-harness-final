@@ -1,0 +1,338 @@
+<!-- 정적 시안, 가상 데이터, 그대로 복사하지 말고 구조만 참고 -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>배치안 분석·비교 · 감시 배치 도구</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#fff;color:#212121;font:14px/1.55 system-ui,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;padding:0;}button,select{font:inherit}button{cursor:default}button:focus-visible,select:focus-visible{outline:2px solid #ea002c;outline-offset:3px}
+.app{display:grid;grid-template-columns:174px minmax(0,1fr);margin:auto;border:1px solid #e3e7ed;background:#fafbfc;overflow:hidden}
+.side{padding:16px 10px;background:#f8f9fb;border-right:1px solid #e3e7ed;display:flex;flex-direction:column}
+.brand{font-size:14px;font-weight:bold;background:#626b7a;color:#fff;text-align:center;padding:6px;border-radius:4px;margin-bottom:19px}
+.brand span{margin-right:6px}
+.nav{border:1px solid transparent;background:none;text-align:left;padding:9px 8px;border-radius:5px;color:#5c6675;font-size:14px;margin-bottom:4px}
+.nav.active{background:white;border-color:#e3e7ed;color:#212121}
+.nav i{display:inline-block;width:23px;font-style:normal}
+.side-foot{margin-top:auto;font-size:14px;color:#5c6675;padding:20px 6px}
+.main{min-width:0}
+.top{height:49px;border-bottom:1px solid #e3e7ed;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:#f8f9fb}
+.top h1{font-size:15px;font-weight:500;margin:0}
+.profile{display:flex;align-items:center;gap:8px;font-size:14px;color:#5c6675}
+.avatar{display:grid;place-items:center;background:#dce1e9;border-radius:50%;width:28px;height:28px;font-size:14px;color:#53647c}
+.content{padding:17px}
+.filters{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.filter-group,.actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}select,.btn{border:1px solid #d6dce4;background:#fff;padding:7px 11px;border-radius:5px;font-size:14px;color:#46505e}
+.filter-group label{font-size:14px;color:#5c6675}
+.btn.primary{background:#ea002c;border-color:#ea002c;color:#fff}
+.criteria{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px;font-size:14px;color:#5c6675}
+.criteria span{border:1px solid #e3e7ed;border-radius:20px;background:#fff;padding:4px 10px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:14px}
+.metric{padding:15px;background:#fff;border:1px solid #e3e7ed;border-radius:7px}
+.metric-label{font-size:14px;color:#5c6675;margin-bottom:7px}
+.number{font-size:26px;font-weight:600;line-height:1.3;font-variant-numeric:tabular-nums}
+.number small{font-size:14px;font-weight:400;color:#5c6675;margin-left:4px}
+.metric-note{font-size:14px;color:#5c6675;margin-top:6px}
+.panels{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(250px,1fr);gap:12px;margin-bottom:14px}
+.panel{background:white;border:1px solid #e3e7ed;border-radius:7px;overflow:hidden}
+.panel-head{padding:13px 15px;border-bottom:1px solid #edf0f4;display:flex;justify-content:space-between;align-items:center;gap:8px}h2{font-size:14px;margin:0;font-weight:600}
+.sub{font-size:14px;color:#5c6675}
+.chart{padding:16px 17px 10px}
+.chart svg{display:block;width:100%;height:auto}
+.legend{display:flex;align-items:center;gap:15px;font-size:14px;color:#5c6675;margin-bottom:12px}
+.legend i{display:inline-block;width:8px;height:8px;margin-right:5px}
+.chart-note{font-size:14px;color:#5c6675;margin-top:7px}
+.review{padding:15px}
+.review-title{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600}
+.tag{display:inline-block;font-size:14px;border-radius:4px;padding:3px 7px;white-space:nowrap;font-weight:400}
+.tag.ok{background:#e9f7f3;color:#00786f}
+.tag.warn{background:#fff2df;color:#a65c13}
+.tag.bad{background:#fff0f3;color:#c70025}
+.review p{font-size:14px;line-height:1.85;color:#5c6675;margin:9px 0 14px}
+.check{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:8px 0;border-top:1px solid #f0f2f5}
+.check b{font-weight:400;color:#212121}
+.callout{background:#f6f7f9;padding:9px;border-radius:4px;margin-top:12px;font-size:14px;color:#5c6675;line-height:1.8}
+.table-scroll{overflow:auto}table{border-collapse:collapse;min-width:740px;width:100%;font-size:14px;font-variant-numeric:tabular-nums}th{text-align:left;font-weight:400;background:#fafbfc;color:#5c6675}th,td{padding:11px 14px;border-bottom:1px solid #edf0f4}
+.num{text-align:right}tr.selected{background:#eef1f6}td strong{font-size:14px;font-weight:600}tbody tr:last-child td{border-bottom:0}
+.table-foot{padding:10px 14px;border-top:1px solid #edf0f4;font-size:14px;color:#5c6675}
+.evidence{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.evidence .body{padding:0;}
+.data-row{display:flex;justify-content:space-between;gap:15px;font-size:14px;color:#5c6675;margin:6px 0}
+.data-row b{color:#46505e;font-weight:400;text-align:right}
+.body p{margin:0;font-size:14px;line-height:1.9;color:#5c6675}
+.note{max-width:1300px;margin:12px auto 0;font-size:14px;color:#666;line-height:1.8}
+@media(max-width:1000px){.app{grid-template-columns:150px minmax(0,1fr)}
+.panels{grid-template-columns:1fr}
+.metrics{gap:7px}
+.metric{padding:12px}
+.number{font-size:23px}
+.content{padding:13px}
+.evidence{grid-template-columns:1fr}}
+@media(max-width:650px){body{padding:0;}
+.app{display:block;}
+.side{border-right:0;border-bottom:1px solid #e3e7ed;padding:10px}
+.brand{width:150px;margin-bottom:7px}
+.side nav{display:flex;overflow:auto;gap:4px}
+.nav{white-space:nowrap;margin:0;padding:7px}
+.nav i{display:none}
+.side-foot{display:none}
+.metrics{grid-template-columns:1fr 1fr}
+.content{padding:12px}
+.top{padding:0 12px}
+.criteria{gap:5px}
+.panel-head{flex-wrap:wrap}}
+
+.app{min-height:100vh;border:0}
+.note,.preview-note{max-width:none;padding:12px;margin:0}
+.avatar{width:auto;padding:4px 7px}
+th:first-child,td:first-child{position:sticky;left:0;z-index:1;background:#fff}th:first-child{background:#fafbfc}tr.selected td:first-child{background:#eef1f6}
+.chart{overflow:auto}
+.chart svg{min-width:610px}
+.top{height:auto;min-height:49px;gap:12px;padding-block:10px}
+.review-title{flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+<div class="brand">
+<span>◈</span>감시 배치 도구</div>
+<nav aria-label="주 메뉴">
+<button type="button" class="nav">
+<i>▦</i>운영 현황</button>
+<button type="button" class="nav">
+<i>▧</i>도면·구역</button>
+<button type="button" class="nav">
+<i>◎</i>카메라 모델</button>
+<button type="button" class="nav active" aria-current="page">
+<i>≡</i>배치안 비교</button>
+<button type="button" class="nav">
+<i>⚙</i>설치 조건</button>
+</nav>
+<div class="side-foot">검토용 정적 시안<br>가상 데이터</div>
+</aside>
+<main class="main">
+<header class="top">
+<h1>배치안 분석·비교 <span class="tag warn">근사·보장 없음</span>
+</h1>
+<div class="profile">운영자<span class="avatar">운영</span>
+</div>
+</header>
+<div class="content">
+<div class="filters">
+<div class="filter-group">
+<label for="floor">조회 층</label>
+<select id="floor">
+<option>12층 · 공정 지원 구역</option>
+</select>
+<label for="set">비교 대상</label>
+<select id="set">
+<option>기준안 + 배치안 A·B</option>
+</select>
+</div>
+<div class="actions">
+<button type="button" class="btn">비교표 내보내기</button>
+<button type="button" class="btn primary">조건 변경 후 재계산</button>
+</div>
+</div>
+<div class="criteria">
+<span>대상 면적 2,000 m²</span>
+<span>감시율 목표 ≥ 95%</span>
+<span>필수 구역 4개 전체 감시</span>
+<span>예산 ≤ 300만원</span>
+</div>
+<section class="metrics" aria-label="배치안 A와 기준안 비교">
+<div class="metric">
+<div class="metric-label">배치안 A · 감시율</div>
+<div class="number">97.5<small>%</small>
+</div>
+<div class="metric-note">기준안 대비 +5.0%p</div>
+</div>
+<div class="metric">
+<div class="metric-label">미감시 면적 감소</div>
+<div class="number">100<small>m²</small>
+</div>
+<div class="metric-note">150 → 50 m²</div>
+</div>
+<div class="metric">
+<div class="metric-label">설치 비용 증감</div>
+<div class="number">+60<small>만원</small>
+</div>
+<div class="metric-note">240 → 300만원 · 예산 이내</div>
+</div>
+<div class="metric">
+<div class="metric-label">전체 조건 충족 후보</div>
+<div class="number">1<small>/ 2개</small>
+</div>
+<div class="metric-note">기준안 제외 · 후보 A·B 비교</div>
+</div>
+</section>
+<div class="panels">
+<section class="panel">
+<div class="panel-head">
+<h2>비용·감시율 비교</h2>
+<span class="sub">12층 · 같은 도면·감시 모델 기준</span>
+</div>
+<div class="chart">
+<svg viewBox="0 0 610 300" role="img" aria-label="비용·감시율 점 그래프. 기준안 240만원 92.5%, A 300만원 97.5%, B 360만원 99%. 예산 300만원, 목표 95%. 세로축은 90%부터 시작합니다.">
+<!-- 좌표: x = 80 + (비용 - 200) × 2.5, y = 240 - (감시율 - 90) × 20 -->
+<g fill="none" stroke="#e5e5e5">
+<path d="M80 40H530M80 140H530M80 240H530M180 40V240M330 40V240M480 40V240"/>
+</g>
+<path d="M80 40V240H530" fill="none" stroke="#505a68"/>
+<g fill="#5c6675" font-size="12">
+<text x="12" y="22">감시율 (%)</text>
+<text x="40" y="44">100</text>
+<text x="48" y="144">95</text>
+<text x="48" y="244">90</text>
+<text x="168" y="262">240</text>
+<text x="318" y="262">300</text>
+<text x="468" y="262">360</text>
+<text x="440" y="288">설치 비용 (만원)</text>
+</g>
+<path d="M330 40V240" stroke="#212121" stroke-dasharray="6 4"/>
+<text x="338" y="32" fill="#212121" font-size="12">예산 300만원</text>
+<path d="M80 140H530" stroke="#505a68" stroke-dasharray="2 4"/>
+<text x="420" y="134" fill="#505a68" font-size="12">목표 95%</text>
+<circle cx="180" cy="190" r="7" fill="#888888"/>
+<circle cx="330" cy="90" r="7" fill="#0e306d"/>
+<circle cx="480" cy="60" r="7" fill="#212121"/>
+<g fill="#212121" font-size="14">
+<text x="92" y="215">기준안 · 92.5%</text>
+<text x="210" y="82">A · 97.5%</text>
+<text x="490" y="55">B · 99.0%</text>
+</g>
+</svg>
+<div class="chart-note">세로축 90~100% · 감시율 = 감시 면적 / 대상 면적 × 100. 정확한 면적과 비용은 아래 표에서 확인합니다.</div>
+</div>
+</section>
+<section class="panel">
+<div class="panel-head">
+<h2>선택안 검토 <span class="tag warn">근사·보장 없음</span>
+</h2>
+<span class="sub">배치안 A</span>
+</div>
+<div class="review">
+<div class="review-title">예시 조건 전체 충족<span class="tag ok">충족</span>
+</div>
+<p>감시율 목표와 필수 구역 조건을 만족하며 예산 범위 안에 있습니다. 감시율이 더 높은 B안은 예산을 초과합니다.</p>
+<div class="check">
+<span>감시율 97.5% / 목표 95%</span>
+<b>충족</b>
+</div>
+<div class="check">
+<span>필수 구역 4 / 4개</span>
+<b>충족</b>
+</div>
+<div class="check">
+<span>설치 비용 300 / 300만원</span>
+<b>충족</b>
+</div>
+<div class="callout">예산 잔여액 0원 · 추가 설치 여유가 없습니다.<br>후보 2개 중 조건 충족 여부를 비교한 예시이며 전역 최적을 보장하지 않습니다.</div>
+</div>
+</section>
+</div>
+<section class="panel">
+<div class="panel-head">
+<h2>조건·결과 비교표</h2>
+<span class="sub">선택안 A 강조 표시</span>
+</div>
+<div class="table-scroll">
+<table>
+<thead>
+<tr>
+<th scope="col">배치안</th>
+<th scope="col" class="num">감시율</th>
+<th scope="col" class="num">미감시 면적</th>
+<th scope="col" class="num">필수 구역</th>
+<th scope="col" class="num">카메라</th>
+<th scope="col" class="num">설치 비용</th>
+<th scope="col">검토 결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<strong>기준안</strong>
+</td>
+<td class="num">92.5%</td>
+<td class="num">150 m²</td>
+<td class="num">4 / 4개</td>
+<td class="num">4대</td>
+<td class="num">240만원</td>
+<td>
+<span class="tag warn">감시율 미달</span>
+</td>
+</tr>
+<tr class="selected">
+<td>
+<strong>배치안 A</strong>
+</td>
+<td class="num">97.5%</td>
+<td class="num">50 m²</td>
+<td class="num">4 / 4개</td>
+<td class="num">5대</td>
+<td class="num">300만원</td>
+<td>
+<span class="tag ok">전체 조건 충족</span>
+</td>
+</tr>
+<tr>
+<td>
+<strong>배치안 B</strong>
+</td>
+<td class="num">99.0%</td>
+<td class="num">20 m²</td>
+<td class="num">4 / 4개</td>
+<td class="num">6대</td>
+<td class="num">360만원</td>
+<td>
+<span class="tag bad">예산 60만원 초과</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-foot">비교용 가상 데이터 · 선택안 표시는 UI 예시이며 실제 배치 저장이나 적용을 의미하지 않습니다.</div>
+</section>
+<div class="evidence">
+<section class="panel">
+<div class="panel-head">
+<h2>비교에 사용한 입력</h2>
+<span class="sub">공통 조건</span>
+</div>
+<div class="body">
+<div class="data-row">
+<span>도면</span>
+<b>12층 · 가상 도면 v1</b>
+</div>
+<div class="data-row">
+<span>카메라 모델</span>
+<b>실내 고정형 A · 90° / 20 m</b>
+</div>
+<div class="data-row">
+<span>카메라 1대 설치 비용</span>
+<b>60만원</b>
+</div>
+<div class="data-row">
+<span>벽체 차폐</span>
+<b>미반영 · 예시 모델</b>
+</div>
+</div>
+</section>
+<section class="panel">
+<div class="panel-head">
+<h2>계산 근거와 한계</h2>
+<span class="sub">가상 결과</span>
+</div>
+<div class="body">
+<p>A안 감시 면적 1,950 m² ÷ 2,000 m² = 97.5%. 기준안 대비 미감시 면적 100 m² 감소, 설치 비용 60만원 증가입니다.<br>도면·면적·후보는 화면 구성을 설명하기 위한 값입니다. 실제 최적화, 벽체 차폐 계산, 최적성 검증은 수행하지 않았습니다.</p>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<p class="note">정적 디자인 시안 · 버튼과 필터는 동작하지 않습니다. 입력·계산·저장 기능 없이 분석 화면의 형태만 보여줍니다.</p>
+</body>
+</html>

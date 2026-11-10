@@ -1,0 +1,193 @@
+<!-- 정적 시안, 가상 데이터, 그대로 복사하지 말고 구조만 참고 -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>감시 배치 도구 · 로그인 시안 02</title>
+<style>
+:root{--brand:#ea002c;--back:#bd4056;--text:#212121;--muted:#666;--line:#e5e5e5}*{box-sizing:border-box}body{margin:0;background:var(--back);color:var(--text);font:14px/1.6 system-ui,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:64px 28px}
+.backdrop{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+.stage{width:min(1040px,100%);position:relative}
+.card{background:#fff;display:grid;grid-template-columns:46% 54%;border:1px solid #ffffffc0;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px #641c2b25;min-height:588px}
+.entry{padding:40px 50px 35px;display:flex;flex-direction:column}
+.brand{display:flex;gap:9px;align-items:center;font-size:14px;font-weight:700;letter-spacing:-.2px}
+.brand-mark{width:30px;height:30px;border-radius:7px;background:var(--brand);display:grid;place-items:center}
+.brand svg{width:21px;height:21px}
+.form-area{margin:auto 0;padding:40px 0 25px}
+.kicker{font-size:14px;letter-spacing:1.9px;color:#5c6675;font-weight:600;margin:0 0 10px}h1{font-size:28px;line-height:1.35;letter-spacing:-1px;margin:0 0 10px;font-weight:700}
+.intro{color:var(--muted);font-size:14px;line-height:1.8;margin:0 0 30px}
+.field{margin-bottom:18px}label{font-size:14px;display:block;margin-bottom:7px;font-weight:600}
+.input-wrap{position:relative}
+.input-wrap svg{position:absolute;left:13px;top:14px;width:16px;height:16px;color:#5c6675;pointer-events:none}input{height:45px;width:100%;border:1px solid #dce0e5;border-radius:5px;padding:0 13px 0 38px;font:14px system-ui,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;background:#fff;color:#212121}input::placeholder{color:#5c6675}input:focus{border-color:var(--brand);outline:3px solid #ea002c12}button{font:14px system-ui,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;cursor:default}
+.login-btn{width:100%;border:0;background:var(--brand);color:white;border-radius:5px;height:45px;margin-top:7px;font-weight:700;display:flex;align-items:center;justify-content:center;position:relative}
+.login-btn span{position:absolute;right:15px;font-size:17px;font-weight:400}
+.login-btn:focus-visible{outline:3px solid #0e306d;outline-offset:3px}
+.help{font-size:14px;color:#5c6675;margin:15px 0 0;line-height:1.8}
+.entry-footer{display:flex;align-items:center;gap:6px;font-size:14px;color:#5c6675;padding-top:12px;border-top:1px solid #f0f0f0}
+.entry-footer svg{width:12px;height:12px}
+.story{background:#f5f6f8;border-left:1px solid #edf0f3;padding:39px 34px 32px;display:flex;flex-direction:column;justify-content:center;position:relative}
+.story-top{display:flex;align-items:center;justify-content:space-between;font-size:14px;color:#5c6675;letter-spacing:1.3px}
+.tiny-camera{display:flex;gap:5px;align-items:center;letter-spacing:0;color:#5c6675}
+.tiny-camera i{width:5px;height:5px;border-radius:50%;background:#0e306d}
+.art{width:100%;display:block;height:auto;margin:29px 0 24px}
+.story h2{font-size:23px;line-height:1.55;letter-spacing:-.8px;margin:0 0 10px;font-weight:600}
+.story p{font-size:14px;color:#5c6675;line-height:1.9;margin:0}
+.topics{margin-top:22px;display:flex;gap:7px;flex-wrap:wrap}
+.topics span{font-size:14px;color:#5c6675;background:#fff;border:1px solid #e0e5eb;border-radius:20px;padding:4px 9px}
+.outside{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:#fff;font-size:14px;margin-top:17px;line-height:1.8}
+.outside strong{font-weight:400;color:#fff}
+.only-small{display:none}
+@media(max-width:850px){.entry{padding:32px}
+.story{padding:32px 24px}
+.story h2{font-size:21px}
+.art{margin:20px 0}
+.card{min-height:550px}}
+@media(max-width:620px){body{padding:27px 17px;align-items:flex-start}
+.card{grid-template-columns:1fr;min-height:0}
+.entry{padding:29px}
+.form-area{padding:31px 0 26px}
+.story{border-left:0;border-top:1px solid #e5e5e5;padding:22px 26px}
+.story-top{font-size:14px}
+.art{margin:16px 0}
+.story h2{font-size:20px}
+.story p br{display:none}
+.topics{margin-top:14px}
+.outside{gap:4px}
+.outside span{width:100%}}
+
+.story p,.intro{font-size:14px}
+.art{min-width:470px}
+.story{overflow:auto}
+</style>
+</head>
+<body>
+<svg class="backdrop" aria-hidden="true">
+<defs>
+<pattern id="back" width="310" height="290" patternUnits="userSpaceOnUse">
+<g fill="none" stroke="white" stroke-width="1.5" opacity=".105">
+<path d="M0 65h48l31 31v72h65l34 34h132M210 0v52h100M0 240h60v50M265 290v-41h45"/>
+<circle cx="79" cy="168" r="5"/>
+<circle cx="210" cy="52" r="4"/>
+<rect x="156" y="94" width="44" height="44" rx="5"/>
+<path d="M166 86v8m11-8v8m12-8v8m-23 44v8m11-8v8m12-8v8m-41-41h8m-8 11h8m44-11h8m-8 11h8"/>
+<path d="m34 26 30 7-5 18-30-7zM42 48l-3 12h18"/>
+<circle cx="250" cy="217" r="20"/>
+<path d="M224 217h52m-26-26v52"/>
+</g>
+</pattern>
+</defs>
+<rect width="100%" height="100%" fill="url(#back)"/>
+</svg>
+<main class="stage">
+<div class="card">
+<section class="entry" aria-labelledby="title">
+<div class="brand">
+<span class="brand-mark">
+<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+<path d="m4 5 15 4-3 9-15-4z" stroke="white" stroke-width="1.5"/>
+<circle cx="10" cy="11" r="2" fill="white"/>
+<path d="m8 17-1 4h9" stroke="white" stroke-width="1.5"/>
+</svg>
+</span>감시 배치 도구</div>
+<div class="form-area">
+<p class="kicker">감시 배치 계획</p>
+<h1 id="title">로그인</h1>
+<p class="intro">감시카메라 배치 최적화를 위한<br>워크스페이스에 접속하세요.</p>
+<div class="field">
+<label for="account">아이디</label>
+<div class="input-wrap">
+<svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+<circle cx="10" cy="6" r="3" stroke="currentColor"/>
+<path d="M4 17v-2a6 6 0 0 1 12 0v2" stroke="currentColor"/>
+</svg>
+<input id="account" type="text" autocomplete="off" placeholder="아이디를 입력하세요">
+</div>
+</div>
+<div class="field">
+<label for="password">비밀번호</label>
+<div class="input-wrap">
+<svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+<rect x="4" y="8" width="12" height="9" rx="2" stroke="currentColor"/>
+<path d="M6 8V5a4 4 0 0 1 8 0v3" stroke="currentColor"/>
+<circle cx="10" cy="12" r="1" fill="currentColor"/>
+</svg>
+<input id="password" type="password" autocomplete="off" placeholder="비밀번호를 입력하세요">
+</div>
+</div>
+<button type="button" class="login-btn" aria-describedby="demo">로그인<span aria-hidden="true">→</span>
+</button>
+<p class="help" id="demo">화면 검토용 시안입니다.<br>입력한 정보는 전송되지 않으며 로그인은 동작하지 않습니다.</p>
+</div>
+<div class="entry-footer">
+<svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+<path d="m8 1 5 2v4c0 4-5 7-5 7S3 11 3 7V3z" stroke="currentColor"/>
+<path d="m5 7 2 2 4-4" stroke="currentColor"/>
+</svg>감시카메라 배치 계획 · 업무 도구</div>
+</section>
+<section class="story" aria-label="서비스 주제 소개">
+<div class="story-top">
+<span>감시 범위 계획</span>
+<span class="tiny-camera">
+<i>
+</i>배치 개념도</span>
+</div>
+<svg class="art" viewBox="0 0 470 285" role="img" aria-label="건물 층 도면 위에 카메라와 감시 범위를 표현한 장식용 개념도">
+<defs>
+<pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+<path d="M20 0H0v20" stroke="#e2e7ed" stroke-width=".8" fill="none"/>
+</pattern>
+</defs>
+<ellipse cx="243" cy="246" rx="180" ry="21" fill="#e7ebf0"/>
+<path d="m32 124 242-83 170 92-242 86z" fill="#e5eaf0"/>
+<path d="M32 124v16l170 96v-17z" fill="#d4dce6"/>
+<path d="m202 219 242-86v16l-242 87z" fill="#c6d1de"/>
+<path d="m32 124 242-83 170 92-242 86z" fill="url(#grid)" stroke="#c6d1de"/>
+<path d="m58 123 212-72 147 80-213 75z" fill="#fff" stroke="#a5b3c3" stroke-width="1.4"/>
+<path d="m67 120 109-28 9 75zM399 133l-109-32-16 70zM206 194l-13-76 106 45z" fill="#0e306d" opacity=".14"/>
+<path d="m67 120 109-28m-109 28 118 47m214-34-109-32m109 32-125 38m-68 23-13-76m13 76 93-31" fill="none" stroke="#0e306d" stroke-dasharray="4 4" stroke-width="1" opacity=".6"/>
+<g fill="none" stroke="#8c9db1" stroke-width="3" stroke-linejoin="round">
+<path d="m58 123 212-72 147 80-213 75z"/>
+<path d="m191 78 58 31-56 20m56-20 64 35m-175-16 52 29m-52-29-46 16"/>
+</g>
+<path d="m290 120 50 27-46 16-49-27z" fill="#eef1f6" stroke="#505a68" stroke-dasharray="4 3"/>
+<path d="m109 118 38-13 29 16-38 13z" fill="#eaf2f9" stroke="#7a9fc0" stroke-dasharray="4 3"/>
+<g transform="translate(67 99)">
+<path d="M0 8v18m-5 0h12" stroke="#6c7e92" stroke-width="3"/>
+<path d="m-12-1 27 7-4 16-28-8z" fill="white" stroke="#788ca3" stroke-width="1.5"/>
+<path d="m15 6 6 4-4 14-6-2z" fill="#dae2ec" stroke="#788ca3" stroke-width="1.5"/>
+<circle cx="3" cy="11" r="4" fill="#0e306d"/>
+</g>
+<g transform="translate(389 113)">
+<path d="M0 9v19m-6 0h12" stroke="#6c7e92" stroke-width="3"/>
+<path d="m-15 5 26-9 5 16-26 9z" fill="white" stroke="#788ca3" stroke-width="1.5"/>
+<path d="m-15 5-5 5 5 16 5-5z" fill="#dae2ec" stroke="#788ca3" stroke-width="1.5"/>
+<circle cx="0" cy="9" r="4" fill="#0e306d"/>
+</g>
+<g transform="translate(207 171)">
+<path d="M0 7v21m-6 0h12" stroke="#6c7e92" stroke-width="3"/>
+<path d="m-14-1 26 7-4 16-27-8z" fill="white" stroke="#788ca3" stroke-width="1.5"/>
+<path d="m12 6 6 4-5 14-5-2z" fill="#dae2ec" stroke="#788ca3" stroke-width="1.5"/>
+<circle cx="0" cy="11" r="4" fill="#0e306d"/>
+</g>
+<circle cx="274" cy="51" r="4" fill="#0e306d"/>
+<path d="M274 47V23h40" fill="none" stroke="#bfc8d5"/>
+<text x="319" y="27" fill="#5c6675" font-size="12">필수 감시 구역</text>
+</svg>
+<h2>공간을 이해하고,<br>감시의 빈틈을 줄입니다.</h2>
+<p>카메라의 화각과 거리, 설치 비용을 고려해<br>필수 구역을 포함하는 배치를 계획합니다.</p>
+<div class="topics">
+<span>감시 범위</span>
+<span>필수 구역</span>
+<span>설치 비용</span>
+</div>
+</section>
+</div>
+<footer class="outside">
+<span>
+<strong>감시 배치 도구</strong> · 감시카메라 배치 최적화</span>
+<span>정적 디자인 시안 02 · 도면은 장식용 예시입니다.</span>
+</footer>
+</main>
+</body>
+</html>
