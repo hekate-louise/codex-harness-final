@@ -17,6 +17,33 @@ description: 구현 세션 역할. 작업 카드 하나(예 T03)를 맡아 담�
 
 ## 도커
 도커가 카드에 있으면 `docker/` 폴더의 예시(Dockerfile, compose.yaml, .dockerignore)를 과제 스택에 맞게 고쳐 쓴다.
-- 도커 없이도 같은 명령으로 실행되게 유지한다.
-- DB 파일은 볼륨에 둔다. 실행은 AGENTS.md의 서버·DB 분리 규칙을 따른다.
-- `docker` 명령을 실행할 수 없으면 파일만 작성하고 결과에 "도커 실행 미확인"을 적는다.
+- 도커 없이도 같은 명령으로 실행되게 유지한다. 서버는 `0.0.0.0`에 바인딩하고 포트·DB 경로는 환경 변수로 받는다.
+- DB 파일은 볼륨에 둔다. 포트는 ENV.md의 도커용 포트를 쓴다.
+- 세션에서는 `docker compose config`로 설정 문법만 확인한다. 세션이 도커를 실행할 수 있으면(권한 오류가 없으면) 아래 절차를 직접 실행해도 된다. **소켓 권한 오류가 나면 막힘이 아니라** 상태를 `사용자 실행 대기`로 두고, 사용자가 셸에서 붙여 넣을 아래 절차를 카드 결과와 답에 그대로 적는다.
+- 사용자가 결과를 붙여 주면 근거에 "사용자 실행"으로 기록하고, 기대와 맞으면 완료로 바꾼다.
+
+### 도커 확인 절차 (사용자가 셸에서 붙여 넣는 순서)
+`P`는 ENV.md의 도커용 포트로 바꿔 적는다.
+
+| 순서 | 명령 | 기대 결과 |
+|---|---|---|
+| 1. 빌드·실행 | `PORT=P docker compose up --build -d` | 오류 없이 끝남 |
+| 2. 상태 | `docker compose ps` | 서비스가 `Up`/`running` |
+| 3. 시작 로그 | `docker compose logs --tail 30` | `0.0.0.0`과 포트에서 시작, `Traceback`·`Error` 없음 |
+| 4. 접속 | `curl -s -o /dev/null -w "%{http_code}\n" http://localhost:P/` | `200` 또는 로그인으로 보내는 `302` |
+| 5. 기능 | 브라우저에서 `http://localhost:P` 로그인과 핵심 흐름 하나 | 도커 없이 실행할 때와 같은 결과 |
+| 6. 데이터 유지 | `docker compose down && PORT=P docker compose up -d` 뒤 새로 고침 | 5에서 저장한 결과가 남음 |
+| 7. 종료 | `docker compose down` | 컨테이너만 지워지고 볼륨은 남음. **`-v`를 붙이지 않는다**(데이터 삭제) |
+
+### 도커가 막힐 때
+| 증상 | 원인 | 사용자에게 보여 줄 조치 |
+|---|---|---|
+| 세션에서만 `permission denied ... docker.sock`, 셸에서는 `docker ps` 정상 | Codex 샌드박스 | 사용자 실행으로 진행(위 절차) |
+| 셸에서도 `permission denied` | 사용자가 docker 그룹에 없음 | `sudo usermod -aG docker $USER` 뒤 다시 로그인(WSL이면 PowerShell에서 `wsl --shutdown`). 시험 환경이면 플랫폼 안내를 따름 |
+| `Cannot connect to the Docker daemon` | 데몬 꺼짐 | `sudo service docker start` |
+| `port is already allocated` | 포트 사용 중 | ENV.md에서 다른 포트를 정해 `PORT`만 바꿈 |
+| 4에서 `000` | 서버가 `127.0.0.1`에 묶였거나 포트 연결이 틀림 | `HOST=0.0.0.0`, compose의 `ports` 확인 |
+| 6에서 데이터가 사라짐 | DB가 볼륨 밖에 저장됨 | `DB_PATH`가 볼륨 경로 아래인지 확인 |
+| 빌드 중 패키지 설치 실패 | 인터넷·기본 이미지 문제 | 기본 이미지와 네트워크 확인, 안 되면 "도커 실행 미확인"으로 남김 |
+
+`sudo`와 시스템 설정 명령은 세션이 실행하지 않고 사용자에게 보여 주기만 한다.

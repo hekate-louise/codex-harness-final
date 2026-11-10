@@ -6,7 +6,7 @@ license: Complete terms in LICENSE.txt
 
 <!-- Modified 2026-10-28 from anthropics/skills for Codex hackathon use. Design reference added 2026-11-04. Screen references and examples revised 2026-11-10. -->
 
-먼저 이 폴더의 `design-reference.md`를 읽고, 과제에 맞는 `screens/` 문서를 1~2개만 고른다. `examples/`는 느낌을 볼 때만 열고 그대로 복사하지 않는다. 과제 README와 사용자의 요구가 그 문서보다 우선한다.
+먼저 이 폴더의 `design-reference.md`를 읽고, 과제에 맞는 `screens/` 문서를 1~2개만 고른다. `examples/`는 사용자가 요청할 때만 열고 그대로 복사하지 않는다. 과제 README와 사용자의 요구가 그 문서보다 우선한다.
 
 AGENTS.md의 시간 예산과 자동 조작 금지를 따른다. 사용자의 디자인 요구가 있으면 우선하고 업무 문제 해결에 필요한 화면만 만든다.
 

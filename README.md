@@ -17,7 +17,7 @@ git clone https://github.com/hekate-louise/codex-harness-final /tmp/h && bash /t
 git clone https://github.com/hekate-louise/codex-harness-final work/codex-harness-final && bash work/codex-harness-final/install.sh .
 ```
 
-설치기는 AGENTS.md, `REPORT.md`, `docs/` 문서 틀, `orch/` 폴더, 스킬을 복사한다. 이미 있는 파일은 덮어쓰지 않는다. 설치한 뒤 Codex를 다시 시작한다.
+설치기는 AGENTS.md, `REPORT.md`, `docs/` 문서 틀, `orch/` 폴더, 스킬을 복사한다. 이미 있는 파일은 덮어쓰지 않는다. 파일 탐색기에서 숨김 폴더가 안 보이는 환경을 위해 `work/harness`(`.agents/skills` 바로가기)도 만든다. HTML 예제는 `python3 -m http.server 8099 --bind 0.0.0.0 --directory .agents/skills/frontend-design/examples`로 띄워 플랫폼 Browser에서 볼 수 있다. 설치한 뒤 Codex를 다시 시작한다.
 
 ## 핵심 생각
 - **지휘자는 사용자다.** 세션은 서로 직접 말하지 않고, 사용자가 터미널마다 일을 맡긴다.
@@ -78,10 +78,10 @@ git clone https://github.com/hekate-louise/codex-harness-final work/codex-harnes
 ## 스킬
 | 스킬 | 역할 |
 |---|---|
-| `main` | 시작(`start`), 카드 분할(`cards`), 새 결과 모아 보기(`상태`), 통합(`merge 카드번호`), 막힌 카드 처리(`카드번호 막힘`), 결정 기록·상의(`카드번호 결정 반영해` / `카드번호 결정 필요`), 인터뷰 답 반영(`인터뷰 N 반영해`), 누락 감시 처리(`REVIEW 확인해`), 마무리 점검(`wrap`). `상태`는 새 카드 결과, 반영하지 않은 인터뷰 답, 누락 감시까지 모아 보여 준다 |
-| `build` | 카드 하나 구현(`$build T03`). 도커 예시 파일(`docker/`) 포함. 막힌 카드는 카드의 원래 역할로 이어받는다(`$build T03 막힘`, `$verify T05 막힘`, `$design T02 막힘`) |
+| `main` | 시작(`start`), 카드 분할(`cards`), 새 결과 모아 보기(`상태`), 통합(`merge 카드번호`), 막힌 카드 처리(`카드번호 막힘`), 결정 기록·상의(`카드번호 결정 반영해` / `카드번호 결정 필요`), 인터뷰 답 반영(`인터뷰 N 반영해`), 누락 감시 처리(`REVIEW 확인해`), 사용자가 먼저 내린 결정 반영(`결정: 내용`), 마무리 점검(`wrap`). `상태`는 새 카드 결과, 반영하지 않은 인터뷰 답, 누락 감시까지 모아 보여 준다 |
+| `build` | 카드 하나 구현(`$build T03`). 도커 예시 파일(`docker/`), 도커 확인 절차와 막힐 때 표 포함. 막힌 카드는 카드의 원래 역할로 이어받는다(`$build T03 막힘`, `$verify T05 막힘`, `$design T02 막힘`) |
 | `verify` | 독립 검산, 권한 우회 시도, 최종 재확인 |
-| `design` | 수치로 된 화면 사양을 먼저 쓰고 스타일 적용 |
+| `design` | 수치로 된 화면 사양을 먼저 쓰고 스타일 적용. HTML과 JS 화면 그리기 부분은 사용자 허락 뒤 고침 |
 | `interview` | `check`: 질문 점검 / `record`: 답 기록 |
 | `explain` | `learn`: 개념 배우기 / `check`: 예상 질문, 피드백, 모범 답안(문항 수 제한 없음) |
 | `docs` | REPORT, 데이터 흐름 표, 발표 원고, 누락 감시 |
@@ -94,7 +94,7 @@ git clone https://github.com/hekate-louise/codex-harness-final work/codex-harnes
 - 여러 세션은 시간을 줄이지만 사용량을 늘린다. 할 일이 분명한 세션만 띄우고, 끝난 세션은 닫는다.
 
 ## 하네스가 스스로 정한 원칙
-화면 자동 조작 없이 터미널·HTTP 검증과 사용자의 화면 확인을 조합한다. 과제 데이터를 외부로 보내지 않는다. 커밋 제안은 메인만 하고, 커밋은 사용자가 로컬에서 한다. 웹 서버는 0.0.0.0에 바인딩한다. 시간 배분과 세션 수는 운영 전략이며 성능을 보장하지 않는다. 응시 규정은 플랫폼 안내를 따른다.
+화면 자동 조작 없이 터미널·HTTP 검증과 사용자의 화면 확인을 조합한다. 과제 데이터를 외부로 보내지 않는다. 커밋 제안은 메인만 하고(통합할 때마다), 커밋은 사용자가 로컬에서 한다. 도커 실행은 기본적으로 사용자가 셸에서 한다. 웹 서버는 0.0.0.0에 바인딩한다. 시간 배분과 세션 수는 운영 전략이며 성능을 보장하지 않는다. 응시 규정은 플랫폼 안내를 따른다.
 
 ## 출처와 라이선스
 - handoff: [mattpocock/skills](https://github.com/mattpocock/skills), MIT 원본을 바탕으로 역할별 인계에 맞게 수정. 폴더에 원본 LICENSE 유지.

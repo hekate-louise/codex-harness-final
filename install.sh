@@ -52,11 +52,23 @@ if ! grep -qx 'work/' .gitignore 2>/dev/null; then
   echo "설치: .gitignore에 work/ 추가"
 fi
 
+# 파일 탐색기에서 숨김 폴더(.agents)가 안 보이는 환경을 위해 work/harness 바로가기를 둔다.
+mkdir -p work
+if [ -e work/harness ] || [ -L work/harness ]; then
+  echo "건너뜀 (이미 있음): work/harness"
+elif ln -s ../.agents/skills work/harness 2>/dev/null && [ -d work/harness/main ]; then
+  echo "설치: work/harness (.agents/skills 바로가기)"
+else
+  rm -f work/harness
+  cp -r .agents/skills work/harness
+  echo "설치: work/harness (바로가기를 만들 수 없어 복사본, 설치 시점 사본)"
+fi
+
 echo
 if [ -z "$(git config user.name || true)" ] || [ -z "$(git config user.email || true)" ]; then
   echo "git 사용자 설정이 비어 있습니다. 커밋 전에 셸에서 실행하세요:"
-  echo '  git config user.name "이름"'
-  echo '  git config user.email "이메일"'
+  echo '  git config --local user.name "이름"'
+  echo '  git config --local user.email "이메일"'
   echo
 fi
 echo "완료. Codex를 다시 시작한 뒤 첫 터미널에서 \$main start 로 시작하세요."
